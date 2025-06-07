@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>আমাদের পণ্য</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            font-style: italic;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-text span {
+            color: #f1c40f;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--light-color);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #f1c40f;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--success-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid var(--success-color);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--success-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 80px 0;
+        }
+
+        .feature {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature p {
+            color: #666;
+        }
+
+        /* New Image Styles */
+        .feature-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .featur-img {
+            width: 100%;
+            height: 250px; /* কিছুটা বড় সাইজ */
+            object-fit: cover;
+            object-position: center; /* ছবির গুরুত্বপূর্ণ অংশ সেন্টারে রাখে */
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* আরও নরম শ্যাডো */
+            transition: all 0.3s ease; /* স্মুথ ট্রানজিশন */
+            border: 3px solid #ffffff; /* সাদা বর্ডার */
+            filter: brightness(0.95) contrast(1.05) saturate(1.1); /* ছবির কালার এনহ্যান্স */
+        }
+        
+        .feature-img:hover {
+            transform: scale(1.02); /* হোভারে সামান্য বড় হবে */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* হোভারে শ্যাডো বৃদ্ধি */
+            filter: brightness(1) contrast(1.1) saturate(1.2); /* হোভারে কালার ইনটেন্সিটি */
+        }
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container container">
+            <div class="logo">
+                <div class="logo-icon">OP</div>
+                <div class="logo-text">আমাদের <span>পণ্য</span></div>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active">হোম পেজ</a></li>
+                    <li><a href="book_collection.html">আমাদের পণ্য</a></li>
+                    <li><a href="contact_us.html">অর্ডার সম্পূর্ণ করুন</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Welcome to Our products</h2>
+            <h1>আমাদের পণ্যে স্বাগতম</h1>
+            <p>Your one-stop solution for all library needs. Browse books, reserve your favorites, and stay updated with
+                our events.</p>
+            <p>লাইব্রেরির সকল চাহিদা পূরণের জন্য আপনার এক-স্টপ সমাধান। বই ব্রাউজ করুন, আপনার পছন্দের বই বুক করুন এবং
+                আমাদের ইভেন্টগুলির সাথে আপডেট থাকুন।</p>
+            <a href="book_collection.html" class="btn">আমাদের পণ্যে প্রবেশ করুন.....</a>
+        </div>
+    </section>
+
+    <section class="features container">
+        <div class="feature">
+            <img src="https://i0.wp.com/technicalbrobd.com/wp-content/uploads/2023/12/%E0%A6%B9%E0%A7%81%E0%A6%AE%E0%A6%BE%E0%A6%AF%E0%A6%BC%E0%A7%82%E0%A6%A8-%E0%A6%86%E0%A6%B9%E0%A6%AE%E0%A7%87%E0%A6%A6-%E0%A6%8F%E0%A6%B0-%E0%A6%89%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A6%BF_compress24.webp"
+                alt="Book Collection" class="feature-img">
+            <h3>Extensive Book Collection</h3>
+            <p>Thousands of books across multiple genres.</p>
+            <h3>বিশাল বইয়ের সংগ্রহ</h3>
+            <p>হাজার হাজার বই বিভিন্ন ধরনের (জেনার) সহ।</p>
+        </div>
+        <div class="feature">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfqQes95ycNzHHUON0zOoLODOfEB5vseIJA&s"
+                alt="Easy Reservation" class="feature-img">
+            <h3>Easy Reservation</h3>
+            <p>Reserve your favorite books online effortlessly.</p>
+            <h3>সহজ রিজার্ভেশন</h3>
+            <p>অনলাইনে সহজেই আপনার পছন্দের বই বুক করুন।</p>
+        </div>
+        
+        
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; My Gmail : mdnaimurrahmanshuvo628@gmail.com</p>
+        </div>
+    </footer>
+</body>
+
+</html>
