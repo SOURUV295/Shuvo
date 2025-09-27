@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Top 25 SSRF Parameters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0f1720;--card:#071021;--muted:#98a0a8;--accent:#22c55e;--glass:rgba(255,255,255,0.03);--glass-border:rgba(255,255,255,0.06);--radius:12px}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071021 0%, #0f1720 100%);color:#e6eef3;font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif;padding:28px}
+    .container{max-width:980px;margin:0 auto}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);padding:18px;border-radius:var(--radius);}
+    header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center}
+    h1{margin:0;font-size:1.3rem}
+    p.lead{margin:6px 0 0;color:var(--muted)}
+
+    .controls{display:flex;gap:10px;align-items:center;margin-top:14px}
+    .input{flex:1}
+    input[type=text]{width:100%;padding:12px;border-radius:10px;border:1px solid var(--glass-border);background:var(--glass);color:inherit}
+    .btn{padding:10px 12px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--accent),#10b981);color:#012214;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid var(--glass-border);color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+    @media (max-width:760px){.grid{grid-template-columns:1fr}}
+    .param{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid var(--glass-border)}
+    .param .name{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;background:rgba(0,0,0,0.12);padding:6px 10px;border-radius:8px}
+    .param .example{font-size:0.9rem;color:var(--muted);flex:1}
+    .param button{padding:8px 10px;border-radius:8px;border:none;background:transparent;color:var(--muted);cursor:pointer}
+
+    .footer{margin-top:18px;color:var(--muted);font-size:0.9rem}
+    .toast{position:fixed;right:18px;bottom:18px;background:#0b1220;border:1px solid var(--glass-border);padding:10px 12px;border-radius:10px;color:var(--accent);display:none}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <header>
+        <div class="logo" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l7 3v5c0 5-3.5 9-7 11-3.5-2-7-6-7-11V5l7-3z" fill="#60ffa0"/></svg></div>
+        <div>
+          <h1>Top 25 SSRF Parameters</h1>
+          <p class="lead">Common parameter names that often accept URLs/hosts — useful for SSRF discovery. Replace <code>{target}</code> with your payload/URL. Use responsibly and with permission.</p>
+        </div>
+      </header>
+
+      <div class="controls">
+        <div class="input"><input id="targetInput" type="text" placeholder="Enter target (example: http://127.0.0.1:8080)"/></div>
+        <button class="btn" id="applyBtn">Apply target</button>
+        <button class="btn ghost" id="copyAllBtn">Copy all examples</button>
+      </div>
+
+      <div class="grid" id="paramsGrid" aria-live="polite"></div>
+
+      <div class="footer">Tip: You can filter by typing in the input (parameter name or part of URL) and press <strong>Apply target</strong>. Always have authorization before testing.</div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script>
+    const params = [
+      'dest','redirect','uri','path','continue','url','window','next','data','reference',
+      'site','html','val','validate','domain','callback','return','page','feed',
+      'host','port','to','out','view','dir'
+    ];
+
+    const grid = document.getElementById('paramsGrid');
+    const targetInput = document.getElementById('targetInput');
+    const applyBtn = document.getElementById('applyBtn');
+    const copyAllBtn = document.getElementById('copyAllBtn');
+    const toast = document.getElementById('toast');
+
+    function makeItem(name, target){
+      const el = document.createElement('div'); el.className='param';
+      const nm = document.createElement('div'); nm.className='name'; nm.textContent='?'+name+'={target}';
+      const ex = document.createElement('div'); ex.className='example'; ex.textContent= target ? `?${name}=${target}` : `?${name}={target}`;
+      const copyBtn = document.createElement('button'); copyBtn.innerHTML='Copy';
+      copyBtn.addEventListener('click', ()=>{navigator.clipboard.writeText(ex.textContent).then(()=>showToast('Copied: '+ex.textContent));});
+      el.appendChild(nm); el.appendChild(ex); el.appendChild(copyBtn);
+      return el;
+    }
+
+    function render(target){
+      grid.innerHTML='';
+      const filter = (targetInput.value||'').toLowerCase();
+      params.forEach(p=>{
+        if(filter && !p.includes(filter) && !(target && (target.toLowerCase().includes(filter)))) return;
+        grid.appendChild(makeItem(p, target));
+      });
+    }
+
+    function showToast(txt){
+      toast.textContent = txt; toast.style.display='block';
+      setTimeout(()=>{toast.style.display='none'},1300);
+    }
+
+    applyBtn.addEventListener('click', ()=>{
+      const t = targetInput.value.trim();
+      render(t || null);
+    });
+
+    copyAllBtn.addEventListener('click', ()=>{
+      const t = targetInput.value.trim();
+      const lines = params.map(p=>`?${p}=${t||'{target}'}`);
+      const out = lines.join('\n');
+      navigator.clipboard.writeText(out).then(()=>showToast('All examples copied'));
+    });
+
+    // initial render
+    render();
+
+    // quick filter on input enter
+    targetInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ applyBtn.click(); } });
+  </script>
+</body>
+</html>

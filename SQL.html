@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Top 25 SQLi Parameters</title>
+  <style>
+    :root{
+      --bg:#071022;
+      --muted:#9fb0c8;
+      --accent:#ef4444;
+      --glass: rgba(255,255,255,0.03);
+      --ok:#34d399;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#021018);color:#eaf3ff;min-height:100vh}
+    .wrap{max-width:980px;margin:28px auto;padding:26px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 40px rgba(2,6,23,0.6)}
+    header{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#f59e0b);display:flex;align-items:center;justify-content:center;font-weight:700;color:#021026}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    .controls{display:flex;gap:12px;align-items:center;margin:16px 0}
+    .search{flex:1}
+    input[type=search]{width:100%;padding:10px 40px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);color:inherit;font-size:14px}
+    .count{font-size:13px;color:var(--muted)}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;cursor:pointer;color:var(--muted);font-size:13px}
+    .btn.primary{border-color:rgba(239,68,68,0.18);background:linear-gradient(90deg, rgba(239,68,68,0.06), transparent)}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02);padding:12px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .param{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:transparent;padding:6px 8px;border-radius:6px;font-size:15px}
+    .meta{font-size:12px;color:var(--muted)}
+    .actions{display:flex;gap:8px;align-items:center}
+    .copy{padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.02);cursor:pointer;font-size:13px}
+    .copied{background:var(--ok);color:#022; border: none}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+
+    .note{font-size:13px;color:var(--muted);margin-top:8px}
+    @media (max-width:520px){.wrap{margin:12px;padding:14px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">TR</div>
+      <div>
+        <h1>Top 25 SQL Injection Parameters</h1>
+        <p class="lead">Frequently seen URL parameters that may be vulnerable to SQL Injection (SQLi). (For educational/research use only)</p>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="search">
+        <input type="search" id="filter" placeholder="Search param, e.g. id, page, search..." autocomplete="off">
+      </div>
+      <div class="count" id="count">25 items</div>
+      <button class="btn primary" id="copyAll">Copy All</button>
+      <button class="btn" id="reset">Reset</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <p class="note">Note: These are parameter names only — no exploit payloads or step-by-step instructions are provided. Always obtain permission before testing systems.</p>
+    <footer>Created for • Copy buttons make it fast to paste into your hunting notes.</footer>
+  </div>
+
+  <script>
+    const params = [
+      '?id=', '?page=', '?dir=', '?search=', '?category=', '?file=', '?class=', '?url=', '?news=', '?item=',
+      '?menu=', '?lang=', '?name=', '?ref=', '?title=', '?view=', '?topic=', '?thread=', '?type=', '?date=',
+      '?form=', '?join=', '?main=', '?nav=', '?region='
+    ];
+
+    const grid = document.getElementById('grid');
+    const countEl = document.getElementById('count');
+    const filter = document.getElementById('filter');
+
+    function renderList(list){
+      grid.innerHTML = '';
+      list.forEach((p)=>{
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const left = document.createElement('div');
+        left.style.display = 'flex';
+        left.style.flexDirection = 'column';
+
+        const param = document.createElement('div');
+        param.className = 'param';
+        param.textContent = p;
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        meta.textContent = 'URL parameter';
+
+        left.appendChild(param);
+        left.appendChild(meta);
+
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'copy';
+        copyBtn.textContent = 'Copy';
+        copyBtn.addEventListener('click', ()=>{
+          navigator.clipboard.writeText(p).then(()=>{
+            copyBtn.textContent = 'Copied';
+            copyBtn.classList.add('copied');
+            setTimeout(()=>{copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied')},1200);
+          }).catch(()=>alert('Copy failed'));
+        });
+
+        actions.appendChild(copyBtn);
+
+        card.appendChild(left);
+        card.appendChild(actions);
+        grid.appendChild(card);
+      });
+      countEl.textContent = list.length + ' items';
+    }
+
+    renderList(params);
+
+    filter.addEventListener('input', (e)=>{
+      const q = e.target.value.toLowerCase().trim();
+      if(!q) return renderList(params);
+      const filtered = params.filter(p=>p.toLowerCase().includes(q));
+      renderList(filtered);
+    });
+
+    document.getElementById('copyAll').addEventListener('click', ()=>{
+      navigator.clipboard.writeText(params.join('\n')).then(()=>{
+        const el = document.getElementById('copyAll');
+        el.textContent = 'Copied';
+        setTimeout(()=>{el.textContent = 'Copy All'},1200);
+      }).catch(()=>alert('Copy failed'));
+    });
+
+    document.getElementById('reset').addEventListener('click', ()=>{
+      filter.value = '';
+      renderList(params);
+    });
+  </script>
+</body>
+</html>

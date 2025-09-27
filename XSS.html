@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Top 25 XSS Parameters </title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#60a5fa; --glass: rgba(255,255,255,0.04);
+      --radius:12px; --gap:14px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Noto Sans",Arial; margin:0; background:linear-gradient(180deg,#071023 0%, var(--bg) 100%); color:#e6eef8; padding:28px}
+    .wrap{max-width:1100px;margin:0 auto}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:4px 0 0;color:var(--muted);font-size:13px}
+
+    .controls{display:flex;gap:10px;align-items:center}
+    .search{padding:10px 12px;border-radius:10px;background:var(--card);border:1px solid rgba(255,255,255,0.03);color:inherit;min-width:220px}
+    .payload{padding:10px 12px;border-radius:10px;background:var(--card);border:1px solid rgba(255,255,255,0.03);min-width:320px}
+    .btn{background:linear-gradient(90deg,var(--accent),#3b82f6);border:none;padding:10px 12px;border-radius:10px;color:#04263b;font-weight:600;cursor:pointer}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:var(--gap);margin-top:18px}
+    .card{background:linear-gradient(180deg,var(--card), rgba(11,18,32,0.85));padding:12px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    .param{font-weight:700;letter-spacing:0.2px}
+    .example{margin-top:8px;font-size:13px;color:var(--muted);word-break:break-all}
+    .card-row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:10px}
+    .copy{padding:8px 10px;border-radius:8px;background:var(--glass);border:1px solid rgba(255,255,255,0.03);cursor:pointer;color:var(--muted)}
+
+    footer{margin-top:20px;color:var(--muted);font-size:13px}
+
+    /* safe preview box */
+    .preview{margin-top:12px;padding:12px;border-radius:10px;background:#071428;border:1px dashed rgba(255,255,255,0.03);min-height:64px;color:var(--muted);font-family:monospace}
+
+    @media (max-width:520px){.controls{flex-direction:column;align-items:stretch}.payload{min-width:100%}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Top 25 XSS Parameters </h1>
+        <p class="lead"><strong></strong> </p>
+      </div>
+     
+    </header>
+
+    <main>
+      <div class="grid" id="grid">
+        <!-- cards injected by JS -->
+      </div>
+
+     
+
+      <footer>
+       Usage Guidelines: This is a static toolkit—get permission from each target before doing actual testing.
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Provided parameter list (from user)
+    const params = [
+      'q','s','search','id','lang','keyword','query','page','keywords','year','view','email','type','name','p','month','image','list_type','url','terms','categoryid','key','login','begindate','enddate'
+    ];
+
+    const grid = document.getElementById('grid');
+    const filter = document.getElementById('filter');
+    const payloadInput = document.getElementById('payload');
+    const preview = document.getElementById('preview');
+    const applyAll = document.getElementById('applyAll');
+
+    function escapeHtml(str){
+      if(!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+    }
+
+    function makeCard(param){
+      const card = document.createElement('div'); card.className='card';
+      const ptitle = document.createElement('div'); ptitle.className='param'; ptitle.textContent = '?' + param + '={payload}';
+      const example = document.createElement('div'); example.className='example'; example.textContent = 'Example: https://example.com/?' + param + '={payload}';
+
+      const row = document.createElement('div'); row.className='card-row';
+      const copyBtn = document.createElement('button'); copyBtn.className='copy'; copyBtn.textContent='Copy URL';
+      copyBtn.addEventListener('click',()=>{
+        const p = payloadInput.value || '{payload}';
+        const raw = 'https://example.com/?' + param + '=' + p;
+        navigator.clipboard.writeText(raw).then(()=>{
+          copyBtn.textContent='Copied!'; setTimeout(()=>copyBtn.textContent='Copy URL',900);
+        }).catch(()=>{copyBtn.textContent='Copy Failed'; setTimeout(()=>copyBtn.textContent='Copy URL',900)});
+      });
+
+      const showBtn = document.createElement('button'); showBtn.className='copy'; showBtn.textContent='Show Escaped';
+      showBtn.addEventListener('click',()=>{
+        const p = payloadInput.value || '{payload}';
+        preview.textContent = escapeHtml(p);
+      });
+
+      row.appendChild(showBtn);
+      row.appendChild(copyBtn);
+
+      card.appendChild(ptitle);
+      card.appendChild(example);
+      card.appendChild(row);
+      return card;
+    }
+
+    function render(list){
+      grid.innerHTML='';
+      list.forEach(p=>grid.appendChild(makeCard(p)));
+    }
+
+    render(params);
+
+    filter.addEventListener('input',()=>{
+      const q = filt
+      er.value.trim().toLowerCase();
+      const filtered = params.filter(x=>x.includes(q));
+      render(filtered);
+    });
+
+    payloadInput.addEventListener('input',()=>{
+      const v = payloadInput.value;
+      preview.textContent = escapeHtml(v || '{payload}');
+    });
+
+    applyAll.addEventListener('click', ()=>{
+      // simply update preview from current payload for user convenience
+      preview.textContent = escapeHtml(payloadInput.value || '{payload}');
+      applyAll.textContent = 'Applied'; setTimeout(()=>applyAll.textContent='All এ আপডেট',900);
+    });
+
+    // initial preview
+    preview.textContent = '{payload}';
+  </script>
+</body>
+</html>
