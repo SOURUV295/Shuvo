@@ -1,306 +1,370 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="bn">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>আমাদের পণ্য</title>
-    <style>
-        /* Global Styles */
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --success-color: #27ae60;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Google Dorks for Bug Bounty</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
-        }
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Centered hero (place near top of body) -->
+<section aria-label="hero" style="display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 18px;">
+  <div>
+    <h1 style="margin:0;font-size:2.1rem;font-weight:800;
+       background:linear-gradient(90deg,#60ffa0,#16a34a);
+       -webkit-background-clip:text;background-clip:text;color:transparent;">
+      MD SOURUV
+    </h1>
+    <p style="margin:8px 0 0;color:#98a0a8;font-weight:600;">Cyber Security Specialist — Bug Bounty & Websecurity</p>
+    <!-- optional small CTA -->
+    <div style="margin-top:12px;">
+      <a href="https://souruv295.github.io/Contacts-ME/" class="btn" style="padding:10px 14px;border-radius:10px;background:#22c55e;color:#012214;text-decoration:none;font-weight:700;">Contact</a>
+    </div>
+  </div>
+</section>
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
+  <style>
+    :root{ /* same styling as before */
+      --bg:#0f1720; --card:#0b1220; --muted: #98a0a8; --glass: rgba(255,255,255,0.04);
+      --accent-1: #22c55e; --accent-2: #60ffa0; --accent-grad: linear-gradient(135deg,var(--accent-1),#10b981);
+      --glass-border: rgba(255,255,255,0.06); --radius:14px; --max-width:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,system-ui,sans-serif;color:#e6eef3;padding:24px 18px}
+    .wrap{max-width:var(--max-width);margin:0 auto}
 
-        /* Header Styles */
-        header {
-            background-color: var(--primary-color);
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    /* NAVBAR */
+    .navbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .nav-left{display:flex;align-items:center;gap:12px}
+    .nav-logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center}
+    .nav-title{display:flex;flex-direction:column}
+    .nav-title h1{font-size:1.05rem;margin:0;font-weight:700}
+    .nav-title .sub{font-size:0.78rem;color:var(--muted);margin-top:3px}
 
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .nav-links{display:flex;gap:10px;align-items:center}
+    .nav-links a{color:#e6eef3;text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:600;background:transparent;border:1px solid transparent}
+    .nav-links a:hover{background:rgba(255,255,255,0.02);border-color:var(--glass-border)}
+    .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;background:var(--accent-grad);color:#012214;font-weight:600}
+    .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--glass-border)}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    
+    /* hamburger */
+    .hamburger{display:none;flex-direction:column;gap:4px;width:34px;height:28px;justify-content:center;cursor:pointer}
+    .hamburger span{height:3px;border-radius:3px;background:#e6eef3;display:block}
 
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #3498db, #2ecc71);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+    @media (max-width:900px){
+      .nav-links{display:none;position:absolute;right:18px;top:84px;flex-direction:column;background:var(--card);padding:12px;border-radius:12px;border:1px solid var(--glass-border);min-width:180px}
+      .nav-links.show{display:flex}
+      .hamburger{display:flex}
+      .nav-title h1{font-size:1rem}
+    }
 
-        .logo-text {
-            font-size: 28px;
-            font-weight: bold;
-            color: white;
-            font-style: italic;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
+    header{display:flex;gap:18px;margin-bottom:12px}
+    .logo{width:68px;height:68px;border-radius:16px;background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center}
+    h1{font-size:1.45rem;margin:0;font-weight:700}
+    .sub{color:var(--muted);font-size:0.92rem;margin-top:6px}
+    .controls{display:grid;grid-template-columns:1fr auto;gap:14px;margin-top:22px;align-items:center}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);padding:18px;border-radius:var(--radius)}
+    .search-box{display:flex;gap:12px;align-items:center}
+    .search-input input{width:100%;padding:12px 14px;background:var(--glass);border-radius:10px;color:#e6eef3;font-size:1rem;border:1px solid transparent}
 
-        .logo-text span {
-            color: #f1c40f;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            gap: 25px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-
-        nav a:hover,
-        nav a.active {
-            background-color: rgba(255, 255, 255, 0.2);
-            text-decoration: none;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-        }
-
-        .hero h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--light-color);
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #f1c40f;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-            line-height: 1.8;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--success-color);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: 2px solid var(--success-color);
-        }
-
-        .btn:hover {
-            background-color: transparent;
-            color: var(--success-color);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Features Section */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 80px 0;
-        }
-
-        .feature {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .feature:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature h3 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .feature p {
-            color: #666;
-        }
-
-        /* New Image Styles */
-        .feature-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .featur-img {
-            width: 100%;
-            height: 250px; /* কিছুটা বড় সাইজ */
-            object-fit: cover;
-            object-position: center; /* ছবির গুরুত্বপূর্ণ অংশ সেন্টারে রাখে */
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* আরও নরম শ্যাডো */
-            transition: all 0.3s ease; /* স্মুথ ট্রানজিশন */
-            border: 3px solid #ffffff; /* সাদা বর্ডার */
-            filter: brightness(0.95) contrast(1.05) saturate(1.1); /* ছবির কালার এনহ্যান্স */
-        }
-        
-        .feature-img:hover {
-            transform: scale(1.02); /* হোভারে সামান্য বড় হবে */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* হোভারে শ্যাডো বৃদ্ধি */
-            filter: brightness(1) contrast(1.1) saturate(1.2); /* হোভারে কালার ইনটেন্সিটি */
-        }
-        /* Footer */
-        footer {
-            background-color: var(--dark-color);
-            color: white;
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 50px;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            nav ul {
-                gap: 15px;
-            }
-
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+    #dorkList{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;list-style:none;padding:20px 0 40px 0;margin:0}
+    @media (max-width:900px){#dorkList{grid-template-columns:1fr}.controls{grid-template-columns:1fr}}
+    #dorkList li{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);padding:14px;border-radius:12px;display:flex;flex-direction:column;gap:8px}
+    .description{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.9px;margin:0}
+    .dorkLink{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;font-size:0.95rem;text-decoration:none;color:#e6fff1;word-break:break-word}
+    .badge{margin-left:auto;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.02);font-size:0.78rem;color:var(--muted)}
+    #tooltip{position:absolute;background:rgba(4,8,12,0.9);color:var(--muted);padding:10px 12px;border-radius:8px;border:1px solid var(--glass-border);display:none}
+  </style>
 </head>
-
 <body>
-    <header>
-        <div class="header-container container">
-            <div class="logo">
-                <div class="logo-icon">OP</div>
-                <div class="logo-text">আমাদের <span>পণ্য</span></div>
-            </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html" class="active">হোম পেজ</a></li>
-                    <li><a href="book_collection.html">আমাদের পণ্য</a></li>
-                    <li><a href="contact_us.html">অর্ডার সম্পূর্ণ করুন</a></li>
-                </ul>
-            </nav>
+  <div class="wrap">
+
+    <!-- NAVBAR (added) -->
+    <nav class="navbar" role="navigation" aria-label="Primary Navigation">
+      <div class="nav-left">
+        <div class="nav-logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path d="M12 2l7 3v5c0 5-3.5 9-7 11-3.5-2-7-6-7-11V5l7-3z" fill="#60ffa0"/></svg></div>
+        <div class="nav-title">
+          <h1>Google Dorks</h1>
+          <div class="sub">Quickly set up a custom domain — use it legally</div>
         </div>
+      </div>
+
+
+
+
+
+
+      <div class="nav-right">
+        <div class="nav-links" id="navLinks">
+            <a href="XSS.html" target="_blank" rel="noopener">XSS</a>
+            <a href="SSRF.html"target="_blank" rel="noopener">SSRF</a>
+            <a href="RCE.html" target="_blank" rel="noopener">RCE</a>
+            <a href="LFI.html" target="_blank" rel="noopener">LFI</a>
+            <a href="SQL.html" target="_blank" rel="noopener">SQL</a>
+
+            <a href="Open Redirect Parameters.html" target="_blank" rel="noopener">Open Redirect</a>
+
+          <a href="" class="btn" id="copyBtn"> </a>
+          
+
+        </div>
+
+
+
+
+
+
+
+
+        <div class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- existing header (kept for layout compatibility) -->
+    <header style="display:none">
+      <div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l7 3v5c0 5-3.5 9-7 11-3.5-2-7-6-7-11V5l7-3z" fill="#60ffa0"/></svg></div>
+      <div><h1>Google Dorks for Bug Bounty — Enhanced</h1><div class="sub">ডোমেইন বসিয়ে দ্রুত কাস্টম ডর্ক তৈরী করো — ব্যবহার করো আইন মেনে।</div></div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h2>Welcome to Our products</h2>
-            <h1>আমাদের পণ্যে স্বাগতম</h1>
-            <p>Your one-stop solution for all library needs. Browse books, reserve your favorites, and stay updated with
-                our events.</p>
-            <p>লাইব্রেরির সকল চাহিদা পূরণের জন্য আপনার এক-স্টপ সমাধান। বই ব্রাউজ করুন, আপনার পছন্দের বই বুক করুন এবং
-                আমাদের ইভেন্টগুলির সাথে আপডেট থাকুন।</p>
-            <a href="book_collection.html" class="btn">আমাদের পণ্যে প্রবেশ করুন.....</a>
+    <div class="card controls" role="region" aria-label="Search controls">
+      <div class="search-box">
+        <div class="search-input" style="flex:1;">
+          <input id="domainInput" type="text" placeholder="Example: example.com, example2.com — Court-saver format: example[.]com" oninput="updateDomain()" />
         </div>
-    </section>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <a class="btn" href="https://github.com/SOURUV295" target="_blank">Github Profile</a>
+        </div>
+      </div>
 
-    <section class="features container">
-        <div class="feature">
-            <img src="https://i0.wp.com/technicalbrobd.com/wp-content/uploads/2023/12/%E0%A6%B9%E0%A7%81%E0%A6%AE%E0%A6%BE%E0%A6%AF%E0%A6%BC%E0%A7%82%E0%A6%A8-%E0%A6%86%E0%A6%B9%E0%A6%AE%E0%A7%87%E0%A6%A6-%E0%A6%8F%E0%A6%B0-%E0%A6%89%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A6%BF_compress24.webp"
-                alt="Book Collection" class="feature-img">
-            <h3>Extensive Book Collection</h3>
-            <p>Thousands of books across multiple genres.</p>
-            <h3>বিশাল বইয়ের সংগ্রহ</h3>
-            <p>হাজার হাজার বই বিভিন্ন ধরনের (জেনার) সহ।</p>
-        </div>
-        <div class="feature">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfqQes95ycNzHHUON0zOoLODOfEB5vseIJA&s"
-                alt="Easy Reservation" class="feature-img">
-            <h3>Easy Reservation</h3>
-            <p>Reserve your favorite books online effortlessly.</p>
-            <h3>সহজ রিজার্ভেশন</h3>
-            <p>অনলাইনে সহজেই আপনার পছন্দের বই বুক করুন।</p>
-        </div>
-        
-        
-    </section>
+    </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; My Gmail : mdnaimurrahmanshuvo628@gmail.com</p>
-        </div>
-    </footer>
+    <ul id="dorkList" aria-live="polite"></ul>
+
+    <div id="tooltip">For multiple domains, separate with commas. Example: example1.com, example2.com</div>
+  </div>
+
+  <script>
+    // small helper for navbar
+    function scrollToSection(e,id){ e.preventDefault(); const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', ()=>{
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!expanded));
+      navLinks.classList.toggle('show');
+    });
+
+    // copy domain action (example behavior)
+    const copyBtn = document.getElementById('copyBtn');
+    copyBtn.addEventListener('click', ()=>{
+      const input = document.getElementById('domainInput');
+      if(!input.value.trim()){
+        input.value = 'example.com';
+        updateDomain();
+        input.focus();
+        return;
+      }
+      navigator.clipboard && navigator.clipboard.writeText(input.value).then(()=>{
+        copyBtn.textContent = 'কপি করা হয়েছে';
+        setTimeout(()=>copyBtn.textContent='ডোমেইন প্রয়োগ',1500);
+      }).catch(()=>{ copyBtn.textContent='কপি ব্যর্থ'; setTimeout(()=>copyBtn.textContent='ডোমেইন প্রয়োগ',1500); });
+    });
+
+    const domainInput = document.getElementById('domainInput');
+    const tooltip = document.getElementById('tooltip');
+    domainInput.addEventListener('mouseover', function(){tooltip.style.display='block';const r=domainInput.getBoundingClientRect();tooltip.style.left=(r.left+window.scrollX)+'px';tooltip.style.top=(r.top+window.scrollY+r.height+8)+'px';});
+    domainInput.addEventListener('mouseout', function(){tooltip.style.display='none';});
+
+    let originalDorks = [];
+
+    // --- EXTRA: user-provided dorks (added here) ---
+    const extraDorks = [
+      // Broad domain search w/ negative search
+      'site:example.com -www -shop -share -ir -mfa',
+
+      // PHP extension w/ parameters
+      'site:example.com ext:php inurl:?',
+
+      // API Endpoints
+      'site:example[.]com inurl:api | site:*/rest | site:*/v1 | site:*/v2 | site:*/v3',
+
+      // Juicy Extensions
+      'site:"example[.]com" ext:log | ext:txt | ext:conf | ext:cnf | ext:ini | ext:env | ext:sh | ext:bak | ext:backup | ext:swp | ext:old | ext:~ | ext:git | ext:svn | ext:htpasswd | ext:htaccess | ext:json',
+
+      // High % inurl keywords
+      'inurl:conf | inurl:env | inurl:cgi | inurl:bin | inurl:etc | inurl:root | inurl:sql | inurl:backup | inurl:admin | inurl:php site:example[.]com',
+
+      // Server Errors
+      'inurl:"error" | intitle:"exception" | intitle:"failure" | intitle:"server at" | inurl:exception | "database error" | "SQL syntax" | "undefined index" | "unhandled exception" | "stack trace" site:example[.]com',
+
+      // XSS prone parameters
+      'inurl:q= | inurl:s= | inurl:search= | inurl:query= | inurl:keyword= | inurl:lang= inurl:& site:example.com',
+
+      // Open Redirect prone parameters
+      'inurl:url= | inurl:return= | inurl:next= | inurl:redirect= | inurl:redir= | inurl:ret= | inurl:r2= | inurl:page= inurl:& inurl:http site:example.com',
+
+      // SQLi Prone Parameters
+      'inurl:id= | inurl:pid= | inurl:category= | inurl:cat= | inurl:action= | inurl:sid= | inurl:dir= inurl:& site:example.com',
+
+      // SSRF Prone Parameters
+      'inurl:http | inurl:url= | inurl:path= | inurl:dest= | inurl:html= | inurl:data= | inurl:domain=  | inurl:page= inurl:& site:example.com',
+
+      // LFI Prone Parameters
+      'inurl:include | inurl:dir | inurl:detail= | inurl:file= | inurl:folder= | inurl:inc= | inurl:locate= | inurl:doc= | inurl:conf= inurl:& site:example.com',
+
+      // RCE Prone Parameters
+      'inurl:cmd | inurl:exec= | inurl:query= | inurl:code= | inurl:do= | inurl:run= | inurl:read=  | inurl:ping= inurl:& site:example.com',
+
+      // File upload endpoints
+      'site:example.com "choose file"',
+
+      // API Docs
+      'inurl:apidocs | inurl:api-docs | inurl:swagger | inurl:api-explorer | inurl:redoc | inurl:openapi | intitle:"Swagger UI" site:"example[.]com"',
+
+      // Login Pages
+      'inurl:login | inurl:signin | intitle:login | intitle:signin | inurl:secure site:example[.]com',
+
+      // Test Environments
+      'inurl:test | inurl:env | inurl:dev | inurl:staging | inurl:sandbox | inurl:debug | inurl:temp | inurl:internal | inurl:demo site:example.com',
+
+      // Sensitive Documents
+      'site:example.com ext:txt | ext:pdf | ext:xml | ext:xls | ext:xlsx | ext:ppt | ext:pptx | ext:doc | ext:docx',
+      'intext:"confidential" | intext:"Not for Public Release" | intext:"internal use only" | intext:"do not distribute"',
+
+      // Sensitive Parameters
+      'inurl:email= | inurl:phone= | inurl:name= | inurl:user= inurl:& site:example[.]com',
+
+      // Adobe Experience Manager (AEM)
+      'inurl:/content/usergenerated | inurl:/content/dam | inurl:/jcr:content | inurl:/libs/granite | inurl:/etc/clientlibs | inurl:/content/geometrixx | inurl:/bin/wcm | inurl:/crx/de site:example[.]com',
+
+      // Disclosed XSS and Open Redirects
+      'site:openbugbounty.org inurl:reports intext:"example.com"',
+
+      // Google Groups
+      'site:groups.google.com "example.com"',
+
+      // Code Leaks
+      'site:pastebin.com "example.com"',
+      'site:jsfiddle.net "example.com"',
+      'site:codebeautify.org "example.com"',
+      'site:codepen.io "example.com"',
+
+      // Cloud Storage
+      'site:s3.amazonaws.com "example.com"',
+      'site:blob.core.windows.net "example.com"',
+      'site:googleapis.com "example.com"',
+      'site:drive.google.com "example[.]com"',
+      'site:dev.azure.com "example[.]com"',
+      'site:onedrive.live.com "example[.]com"',
+      'site:digitaloceanspaces.com "example[.]com"',
+      'site:sharepoint.com "example[.]com"',
+      'site:s3-external-1.amazonaws.com "example[.]com"',
+      'site:s3.dualstack.us-east-1.amazonaws.com "example[.]com"',
+      'site:dropbox.com/s "example[.]com"',
+      'site:box.com/s "example[.]com"',
+      'site:docs.google.com inurl:"/d/" "example[.]com"',
+
+      // JFrog Artifactory
+      'site:jfrog.io "example[.]com"',
+
+      // Firebase
+      'site:firebaseio.com "example[.]com"',
+
+      // Dorks that work better w/o domain
+      '"submit vulnerability report" | "powered by bugcrowd" | "powered by hackerone"',
+      'site:*/security.txt "bounty"',
+
+      // Apache Server Status Exposed
+      'site:*/server-status apache',
+
+      // WordPress
+      'inurl:/wp-admin/admin-ajax.php',
+
+      // Drupal
+      'intext:"Powered by" & intext:Drupal & inurl:user',
+
+      // Joomla
+      'site:*/joomla/login'
+    ];
+
+    async function fetchDorks(){
+      const url = "https://raw.githubusercontent.com/TakSec/google-dorks-bug-bounty/main/README.md";
+      try{
+        const resp = await fetch(url);
+        const text = await resp.text();
+        const dorkList = document.getElementById('dorkList');
+        dorkList.innerHTML = '';
+        const regex = /(?:^### (.+)|```([^`]+)```)/gm;
+        let match; let title=''; let prevTitle='';
+        while((match = regex.exec(text))!==null){
+          if(match[1]) title = match[1].trim();
+          else if(match[2]){
+            const dork = match[2].trim();
+            originalDorks.push(dork);
+            dorkList.appendChild(createDorkListItem(dork,title,prevTitle));
+            prevTitle = title;
+          }
+        }
+      }catch(e){
+        // if fetch fails, continue (we'll still append extraDorks below)
+        console.warn('Could not fetch remote dorks, using local extras only');
+      }
+
+      // Append the extra (user-provided) dorks after known ones
+      const dorkList = document.getElementById('dorkList');
+      extraDorks.forEach((dork, idx)=>{
+        // push to originalDorks to keep index mapping
+        originalDorks.push(dork);
+        // For the first extra item, show header "Custom Dorks"
+        const prev = (idx===0) ? 'Custom Dorks' : '';
+        dorkList.appendChild(createDorkListItem(dork, prev, ''));
+      });
+
+      filterDorks();
+    }
+
+    function createDorkListItem(dork, description, prevTitle){
+      const li = document.createElement('li');
+      if(description && description!==prevTitle){
+        const p = document.createElement('p'); p.className='description'; p.textContent=description; li.appendChild(p);
+      }
+      const a = document.createElement('a'); a.className='dorkLink'; a.href=`https://www.google.com/search?q=${encodeURIComponent(dork)}`; a.target='_blank'; a.rel='noopener'; a.textContent=dork;
+      li.appendChild(a);
+      const badge = document.createElement('span'); badge.className='badge'; badge.textContent='Google'; li.appendChild(badge);
+      return li;
+    }
+
+    function updateDomain(){
+      const domains = domainInput.value.split(',').map(d=>d.trim()).filter(Boolean);
+      if(!domains.length){
+        document.querySelectorAll('.dorkLink').forEach((link, idx)=>{ if(originalDorks[idx]){ link.textContent = originalDorks[idx]; link.href = `https://www.google.com/search?q=${encodeURIComponent(originalDorks[idx])}`; } });
+        return;
+      }
+
+      document.querySelectorAll('.dorkLink').forEach((link, index)=>{
+        let originalDork = originalDorks[index];
+        if(!originalDork) return;
+        if(/Drupal/i.test(originalDork)) return;
+        let updated = originalDork;
+        updated = updated.replace(/site:"?example\[?\.?\]?com"?/gi, domains.map(d=>`site:${d}`).join(' | '));
+        updated = updated.replace(/["']example\[?\.?\]?com["']/gi, domains.map(d=>`\"${d}\"`).join(' | '));
+        updated = updated.replace(/intext:"example\.com"/gi, domains.map(d=>`intext:\"${d}\"`).join(' | '));
+        link.textContent = updated;
+        link.href = `https://www.google.com/search?q=${encodeURIComponent(updated)}`;
+      });
+    }
+
+    function filterDorks(){
+      document.querySelectorAll('#dorkList li').forEach(item=>{ if(item.textContent.toLowerCase().includes('omit')) item.style.display='none'; else item.style.display='';});
+    }
+
+    // init
+    fetchDorks();
+  </script>
 </body>
-
 </html>
